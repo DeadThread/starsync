@@ -1,0 +1,24 @@
+services:
+  starsync:
+    build: .
+    container_name: starsync
+    ports:
+      - "5454:5454"
+    environment:
+      PLEX_URL: "${PLEX_URL}"
+      PLEX_TOKEN: "${PLEX_TOKEN}"
+      LIBRARY_NAME: "${LIBRARY_NAME}"
+      RATING_STYLE: "${RATING_STYLE}"
+      TARGET_RATING: "${TARGET_RATING}"
+      OVERRIDE_RATING: "${OVERRIDE_RATING}"
+      BATCH_INTERVAL_MINUTES: "${BATCH_INTERVAL_MINUTES}"
+      BATCH_SIZE: "${BATCH_SIZE}"
+      APP_USERNAME: "${APP_USERNAME}"
+      APP_PASSWORD: "${APP_PASSWORD}"
+      FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
+      PUID: "1000"
+      PGID: "1000"
+    volumes:
+      - /home/server/services/starsync/logs:/app/logs
+      - /home/server/services/starsync/config:/app/config
+    restart: unless-stopped
