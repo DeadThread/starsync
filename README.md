@@ -38,7 +38,8 @@ cd starsync
 
 2. Create a .env file in the project root directory
     
-```
+``
+    
     # Plex server connection info
     PLEX_URL=http://your-plex-server:32400
     PLEX_TOKEN=your_plex_token_here
@@ -68,7 +69,7 @@ cd starsync
     APP_PASSWORD=your_password
     
     # Flask secret key for session security
-    FLASK_SECRET_KEY=replace_with_a_secure_random_key```
+    FLASK_SECRET_KEY=replace_with_a_secure_random_key
 
 
 
