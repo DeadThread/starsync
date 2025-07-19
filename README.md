@@ -1,6 +1,6 @@
 StarSync
 
-StarSync is a lightweight Flask web app designed to automatically assign star ratings to unrated music tracks in your Plex libraries. It addresses an issue where Plex’s Library Radio does not properly include unrated live music tracks. StarSync sets a base rating (default 3 stars) to ensure these tracks are recognized and included in your Library Radio mixes.
+StarSync is a lightweight Flask web app designed to automatically assign star ratings to unrated music tracks in your Plex libraries. It addresses an issue where Plex’s Library Radio does not properly include unrated live music tracks. StarSync sets a base rating to ensure these tracks are recognized and included in your Library Radio mixes.
 Features
 
 - Automatically rates unrated tracks in your specified Plex music libraries
