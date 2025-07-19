@@ -3,32 +3,32 @@ StarSync
 StarSync is a lightweight Flask web app designed to automatically assign star ratings to unrated music tracks in your Plex libraries. It addresses an issue where Plex’s Library Radio does not properly include unrated live music tracks. StarSync sets a base rating (default 3 stars) to ensure these tracks are recognized and included in your Library Radio mixes.
 Features
 
-    Automatically rates unrated tracks in your specified Plex music libraries
+Automatically rates unrated tracks in your specified Plex music libraries
 
-    Supports 1-star, 5-star, or 5-star half-step rating styles
+Supports 1-star, 5-star, or 5-star half-step rating styles
 
-    Configurable batch size and interval for rating operations
+Configurable batch size and interval for rating operations
 
-    Manual and webhook-triggered rating support
+Manual and webhook-triggered rating support
 
-    Web interface for login, triggering ratings, resetting ratings, and changing settings
+Web interface for login, triggering ratings, resetting ratings, and changing settings
 
-    Secure login with customizable username/password
+Secure login with customizable username/password
 
-    Live logging view in the web interface
+Live logging view in the web interface
 
-    Runs easily via Docker Compose or directly with Python
+Runs easily via Docker Compose or directly with Python
 
 Why StarSync?
 
 Plex’s Library Radio can exclude unrated music tracks—especially live or obscure tracks you want included. Instead of manually rating thousands of songs, StarSync automatically assigns a default star rating to unrated tracks, improving your Library Radio experience by making sure all your music gets proper recognition.
 Requirements
 
-    Plex server with a valid API token
+Plex server with a valid API token
 
-    Python 3.8+ (if running without Docker)
+Python 3.8+ (if running without Docker)
 
-    Docker & Docker Compose (optional, recommended for ease)
+Docker & Docker Compose (optional, recommended for ease)
 
 Installation & Usage
 1. Create a .env file in the project root directory
