@@ -3,32 +3,32 @@ StarSync
 StarSync is a lightweight Flask web app designed to automatically assign star ratings to unrated music tracks in your Plex libraries. It addresses an issue where Plex’s Library Radio does not properly include unrated live music tracks. StarSync sets a base rating (default 3 stars) to ensure these tracks are recognized and included in your Library Radio mixes.
 Features
 
-Automatically rates unrated tracks in your specified Plex music libraries
+- Automatically rates unrated tracks in your specified Plex music libraries
 
-Supports 1-star, 5-star, or 5-star half-step rating styles
+- Supports 1-star, 5-star, or 5-star half-step rating styles
 
-Configurable batch size and interval for rating operations
+- Configurable batch size and interval for rating operations
 
-Manual and webhook-triggered rating support
+- Manual and webhook-triggered rating support
 
-Web interface for login, triggering ratings, resetting ratings, and changing settings
+- Web interface for login, triggering ratings, resetting ratings, and changing settings
 
-Secure login with customizable username/password
+- Secure login with customizable username/password
 
-Live logging view in the web interface
+- Live logging view in the web interface
 
-Runs easily via Docker Compose or directly with Python
+- Runs easily via Docker Compose or directly with Python
 
 Why StarSync?
 
 Plex’s Library Radio can exclude unrated music tracks—especially live or obscure tracks you want included. Instead of manually rating thousands of songs, StarSync automatically assigns a default star rating to unrated tracks, improving your Library Radio experience by making sure all your music gets proper recognition.
 Requirements
 
-Plex server with a valid API token
+- Plex server with a valid API token
 
-Python 3.8+ (if running without Docker)
+- Docker & Docker Compose (optional, recommended for ease)
 
-Docker & Docker Compose (optional, recommended for ease)
+- Python 3.8+ (if running without Docker)
 
 Installation & Usage
 1. Create a .env file in the project root directory
@@ -65,6 +65,22 @@ Before running StarSync, create a .env file with your custom configuration varia
     
     # Flask secret key for session security
     FLASK_SECRET_KEY=replace_with_a_secure_random_key
+
+
+    | Variable                 | Description                                                   | Default / Notes           |
+    | ------------------------ | ------------------------------------------------------------- | ------------------------- |
+    | PLEX\_URL                | URL of your Plex server                                       | Required                  |
+    | PLEX\_TOKEN              | Your Plex API token                                           | Required                  |
+    | LIBRARY\_NAME            | Comma-separated Plex music libraries to monitor               | Required                  |
+    | RATING\_STYLE            | Rating style: "1star", "5stars", or "5stars\_half"            | "5stars" recommended      |
+    | TARGET\_RATING           | Target rating value (depends on rating style)                 | 3.0                       |
+    | OVERRIDE\_RATING         | Override existing ratings? "true" or "false"                  | false                     |
+    | BATCH\_INTERVAL\_MINUTES | Minutes between periodic batch runs. Set 0 to disable         | 60                        |
+    | BATCH\_SIZE              | Number of tracks processed per batch                          | 500                       |
+    | APP\_USERNAME            | Username for the web UI login                                 | Required                  |
+    | APP\_PASSWORD            | Password for the web UI login                                 | Required                  |
+    | FLASK\_SECRET\_KEY       | Secret key for Flask sessions (set to a secure random string) | "supersecretkey" fallback |
+
     
 2. Run with Docker Compose (recommended)
 
@@ -103,6 +119,7 @@ Then run:
     docker-compose up -d
 
 The app will be accessible at http://localhost:5454 (replace localhost with your server IP if running remotely).
+
 3. (Optional) Clone the repository for running locally with Python
 
 If you want to run StarSync using Python directly (without Docker), clone the repo and enter the directory:
@@ -125,50 +142,39 @@ python app.py
 The app will be accessible at http://localhost:5454
 
 
-    | Variable                 | Description                                                   | Default / Notes           |
-    | ------------------------ | ------------------------------------------------------------- | ------------------------- |
-    | PLEX\_URL                | URL of your Plex server                                       | Required                  |
-    | PLEX\_TOKEN              | Your Plex API token                                           | Required                  |
-    | LIBRARY\_NAME            | Comma-separated Plex music libraries to monitor               | Required                  |
-    | RATING\_STYLE            | Rating style: "1star", "5stars", or "5stars\_half"            | "5stars" recommended      |
-    | TARGET\_RATING           | Target rating value (depends on rating style)                 | 3.0                       |
-    | OVERRIDE\_RATING         | Override existing ratings? "true" or "false"                  | false                     |
-    | BATCH\_INTERVAL\_MINUTES | Minutes between periodic batch runs. Set 0 to disable         | 60                        |
-    | BATCH\_SIZE              | Number of tracks processed per batch                          | 500                       |
-    | APP\_USERNAME            | Username for the web UI login                                 | Required                  |
-    | APP\_PASSWORD            | Password for the web UI login                                 | Required                  |
-    | FLASK\_SECRET\_KEY       | Secret key for Flask sessions (set to a secure random string) | "supersecretkey" fallback |
 
+Features
 
-Login: Requires username and password as per .env
+- Login: Secure web interface access requiring username and password as configured in your .env file.
 
-Trigger: Manually trigger rating of all tracks
+- Trigger: Manually start the rating process for all unrated tracks in your selected libraries.
 
-Trigger Last Batch: Manually trigger rating of last batch size tracks
+- Trigger Last Batch: Manually trigger rating for the most recent batch of tracks based on your batch size setting.
 
-Settings: Change monitored libraries, rating style/value, override option, and batch interval
+- Settings: Easily update monitored libraries, rating style and value, override preferences, and batch interval — all through the web UI.
 
-Reset Ratings: Clear all existing ratings from tracks
+- Reset Ratings: Clear all existing user ratings on tracks, allowing you to start fresh if needed.
 
-Live Log: View detailed real-time logs of rating operations
+- Live Log: View real-time, detailed logs of all rating operations directly in the web interface for monitoring and troubleshooting.
 
 How It Works
 
-StarSync connects to your Plex server, retrieves your specified music libraries, and searches for tracks without user ratings. When triggered (manually, via webhook, or periodically), it assigns a configured star rating to these unrated tracks to ensure they are recognized in Plex Library Radio.
+StarSync connects to your Plex server and retrieves the specified music libraries. It identifies tracks without user ratings and assigns a configured star rating when triggered — whether manually, by Plex webhook events, or on a scheduled interval. This ensures unrated tracks are included and properly recognized in Plex Library Radio.
 
-You can control whether it overrides existing ratings or only rates unrated tracks.
+You can choose to only rate unrated tracks or override existing ratings with your preferred value.
 Plex Webhook Integration
 
-StarSync can listen for Plex webhook events to automatically trigger rating batches when new music is added. Configure your Plex server to send webhooks to:
+StarSync supports Plex webhooks to automate the rating process when new music is added. To enable this, configure your Plex server to send webhook notifications to:
 
 http://your-starsync-server:5454/plex-webhook
 
+Upon receiving relevant events, StarSync will automatically rate new tracks according to your settings.
 Logging
 
-Logs are saved in the logs directory and also viewable live in the web interface. Useful for troubleshooting and monitoring activity.
+All activity is logged and saved in the logs directory. Logs are also streamed live to the web interface for easy real-time monitoring and troubleshooting.
 Contributing
 
-Contributions and feedback welcome! Please open issues or pull requests on GitHub.
+Contributions, suggestions, and bug reports are very welcome! Feel free to open issues or submit pull requests on the GitHub repository.
 License
 
-MIT License
+StarSync is released under the MIT License.
