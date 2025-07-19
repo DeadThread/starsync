@@ -19,6 +19,6 @@ services:
       PUID: "1000"
       PGID: "1000"
     volumes:
-      - /home/server/services/starsync/logs:/app/logs
-      - /home/server/services/starsync/config:/app/config
+      - ./logs:/app/logs  
+      - ./config:/app/config
     restart: unless-stopped
