@@ -31,15 +31,10 @@ Requirements
     Docker & Docker Compose (optional, recommended for ease)
 
 Installation & Usage
-1. Clone the repository
+1. Create a .env file in the project root directory
 
-git clone https://github.com/DeadThread/starsync.git
-cd starsync
+Before running StarSync, create a .env file with your custom configuration variables. For example:
 
-2. Create a .env file in the project root directory
-    
-``
-    
     # Plex server connection info
     PLEX_URL=http://your-plex-server:32400
     PLEX_TOKEN=your_plex_token_here
@@ -70,21 +65,17 @@ cd starsync
     
     # Flask secret key for session security
     FLASK_SECRET_KEY=replace_with_a_secure_random_key
+    
+2. Run with Docker Compose (recommended)
 
+No need to clone the repo locally — Docker Compose will pull the code directly from GitHub.
 
-
-StarSync uses environment variables to configure your Plex connection, libraries to monitor, rating style, login credentials, and more.
-
-Create a file named .env with your custom settings. See the sample below.
-3. Run with Docker Compose (recommended)
-
-Make sure Docker and Docker Compose are installed.
-
-Place the provided docker-compose.yml in the project directory (or create it):
+Create a docker-compose.yml file in your project directory with the following content:
 
     services:
       starsync:
-        build: .
+        build:
+          context: https://github.com/DeadThread/starsync.git
         container_name: starsync
         ports:
           - "5454:5454"
@@ -107,14 +98,21 @@ Place the provided docker-compose.yml in the project directory (or create it):
           - ./config:/app/config
         restart: unless-stopped
 
-Run the container:
+Then run:
 
-docker-compose up -d
+    docker-compose up -d
 
 The app will be accessible at http://localhost:5454 (replace localhost with your server IP if running remotely).
+3. (Optional) Clone the repository for running locally with Python
+
+If you want to run StarSync using Python directly (without Docker), clone the repo and enter the directory:
+
+git clone https://github.com/DeadThread/starsync.git
+cd starsync
+
 4. Run with Python directly (development or no Docker)
 
-Make sure Python 3.8+ is installed, then install dependencies:
+Make sure Python 3.8+ is installed. Then install dependencies:
 
 pip install -r requirements.txt
 
@@ -124,8 +122,8 @@ Start the app:
 
 python app.py
 
-Access the web interface at http://localhost:5454
-Configuration Variables
+The app will be accessible at http://localhost:5454
+
 
     | Variable                 | Description                                                   | Default / Notes           |
     | ------------------------ | ------------------------------------------------------------- | ------------------------- |
@@ -141,19 +139,18 @@ Configuration Variables
     | APP\_PASSWORD            | Password for the web UI login                                 | Required                  |
     | FLASK\_SECRET\_KEY       | Secret key for Flask sessions (set to a secure random string) | "supersecretkey" fallback |
 
-Web Interface
 
-    Login: Requires username and password as per .env
+Login: Requires username and password as per .env
 
-    Trigger: All Tracks - Manually trigger rating of all tracks
+Trigger: Manually trigger rating of all tracks
 
-    Trigger: Last Batch - Manually trigger rating of last batch size tracks
+Trigger Last Batch: Manually trigger rating of last batch size tracks
 
-    Settings: Change monitored libraries, rating style/value, override option, and batch interval
+Settings: Change monitored libraries, rating style/value, override option, and batch interval
 
-    Reset Ratings: Clear all existing ratings from tracks
+Reset Ratings: Clear all existing ratings from tracks
 
-    Live Log: View detailed real-time logs of rating operations
+Live Log: View detailed real-time logs of rating operations
 
 How It Works
 
@@ -169,14 +166,9 @@ http://your-starsync-server:5454/plex-webhook
 Logging
 
 Logs are saved in the logs directory and also viewable live in the web interface. Useful for troubleshooting and monitoring activity.
-
 Contributing
 
 Contributions and feedback welcome! Please open issues or pull requests on GitHub.
-
 License
 
 MIT License
-
-If you want me to generate this README as a file or add anything else, just ask!
-
