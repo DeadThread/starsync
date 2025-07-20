@@ -18,7 +18,10 @@ services:
       FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
       PUID: "1000"
       PGID: "1000"
+      TZ: "America/Chicago"
     volumes:
       - ./logs:/app/logs  
       - ./config:/app/config
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     restart: unless-stopped
