@@ -1,7 +1,6 @@
 services:
   starsync:
-    build:
-      context: https://github.com/DeadThread/starsync.git
+    image: ghcr.io/deadthread/starsync:latest
     container_name: starsync
     ports:
       - "5454:5454"
