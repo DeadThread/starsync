@@ -90,8 +90,7 @@ Create a docker-compose.yml file in your project directory with the following co
 
     services:
       starsync:
-        build:
-          context: https://github.com/DeadThread/starsync.git
+        image: ghcr.io/deadthread/starsync:latest
         container_name: starsync
         ports:
           - "5454:5454"
@@ -109,9 +108,12 @@ Create a docker-compose.yml file in your project directory with the following co
           FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
           PUID: "1000"
           PGID: "1000"
+          TZ: "America/Chicago"
         volumes:
-          - ./logs:/app/logs
+          - ./logs:/app/logs  
           - ./config:/app/config
+          - /etc/localtime:/etc/localtime:ro
+          - /etc/timezone:/etc/timezone:ro
         restart: unless-stopped
 
 Then run:
