@@ -2,7 +2,7 @@ name: Build & Push to GHCR
 
 on:
   push:
-    branches: [ main ]  # or "master", depending on your default branch
+    branches: [ main ]  # change to 'master' if needed
 
 permissions:
   contents: read
@@ -28,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/starsync:latest
+          tags: ghcr.io/deadthread/starsync:latest
